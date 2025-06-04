@@ -1,10 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PopupBank : MonoBehaviour
 {
   [SerializeField] private GameObject panel;
+  [SerializeField] private TMP_InputField inputDeposit;
+  [SerializeField] private TMP_InputField inputWithdraw;
+  public void InputFieldMoney(bool isMode)
+  {
+      string text = isMode ? inputDeposit.text : inputWithdraw.text;
+      float.TryParse(text, out float amount);
+      if(isMode) DepositMoney(amount);
+      else WithdrawMoney(amount);
+  }
 
   public void DepositMoney(float amount)
   {
