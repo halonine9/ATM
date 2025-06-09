@@ -5,9 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class UserData
 {
-  [SerializeField] private string userName;
-  [SerializeField] private float userBalance;
-  [SerializeField] private float userCash;
+  public string userName;
+  public float userBalance;
+  public float userCash;
 
   public UserData(string name, float balance, float cash)
   {
@@ -15,4 +15,10 @@ public class UserData
     userBalance = balance;
     userCash = cash;
   }
+  public string GetUserName() => userName;
+  public float GetBalance() => userBalance;
+  public float GetCash() => userCash;
+  
+  public void SetCash(float newCash) => userCash = newCash;
+  public void SetBalance(float newBalance) => userBalance = newBalance;
 }

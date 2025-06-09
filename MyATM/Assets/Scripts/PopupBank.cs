@@ -19,7 +19,7 @@ public class PopupBank : MonoBehaviour
 
   public void DepositMoney(float amount)
   {
-    if (GameManager.instance.userCash < amount)
+    if (GameManager.instance.userData.GetCash() < amount)
     {
       panel.SetActive(true);
       return;
@@ -29,7 +29,7 @@ public class PopupBank : MonoBehaviour
 
   public void WithdrawMoney(float amount)
   {
-    if (GameManager.instance.userBalance < amount)
+    if (GameManager.instance.userData.GetBalance() < amount)
     {
       panel.SetActive(true);
       return;
@@ -41,8 +41,14 @@ public class PopupBank : MonoBehaviour
 
   void Counting(float amount)
   {
-    GameManager.instance.userCash -= amount;
-    GameManager.instance.userBalance += amount;
+    float deposit = GameManager.instance.userData.GetCash() - amount;
+    Debug.Log(deposit);
+    float withdraw = GameManager.instance.userData.GetBalance() + amount;
+    Debug.Log(withdraw);
+    GameManager.instance.userData.SetCash(deposit);
+    GameManager.instance.userData.SetBalance(withdraw);
+      
     GameManager.instance.Refresh();
+    GameManager.instance.SaveUserData();
   }
 }

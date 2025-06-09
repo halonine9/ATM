@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,22 +11,48 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI balancetext;
     
     [SerializeField] private string userName;
-    [SerializeField] public float userBalance;
-    [SerializeField] public float userCash;
+    [SerializeField] private float userBalance;
+    [SerializeField] private float userCash;
 
+    private string savePath;
+    
     void Awake()
     {
         instance = this;
+        savePath = Application.persistentDataPath + "/user.json";
         userData = new UserData(userName, userBalance, userCash);
     }
     void Start()
     {
+        LoadUserData();
+        SaveUserData();
         Refresh();
     }
 
     public void Refresh()
     {
-        cashtext.text = userCash.ToString("N0");
-        balancetext.text = userBalance.ToString("N0");
+        cashtext.text = userData.GetCash().ToString("N0");
+        balancetext.text = userData.GetBalance().ToString("N0");
+    }
+    
+    public void SaveUserData()
+    {
+        if (userData == null) return;
+
+        string json = JsonUtility.ToJson(userData, true);
+        File.WriteAllText(savePath, json);
+    }
+    
+    public void LoadUserData()
+    {
+        if (File.Exists(savePath))
+        {
+            string json = File.ReadAllText(savePath);
+            userData = JsonUtility.FromJson<UserData>(json);
+            
+            userName = userData.GetUserName();
+            userCash = userData.GetCash();
+            userBalance = userData.GetBalance();
+        }
     }
 }
