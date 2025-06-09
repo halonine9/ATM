@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,16 @@ using UnityEngine;
 [System.Serializable]
 public class UserData
 {
+  public string userId;
+  public string userPassword;
   public string userName;
   public float userBalance;
   public float userCash;
 
-  public UserData(string name, float balance, float cash)
+  public UserData(string id, string password, string name, float balance, float cash)
   {
+    userId = id;
+    userPassword = password;
     userName = name;
     userBalance = balance;
     userCash = cash;
